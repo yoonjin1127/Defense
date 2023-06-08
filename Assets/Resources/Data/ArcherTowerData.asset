@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 826ff6b3811b3304c9c7f6c2dcf99bdf, type: 3}
+  m_Name: ArcherTowerData
+  m_EditorClassIdentifier: 
+  towers:
+  - tower: {fileID: 6529825352540536580, guid: dadc95b3df0480c4cb55219068ec6e3d, type: 3}
+    damage: 1
+    delay: 2
+    range: 30
+    buildTime: 10
+    buildCost: 10
+    sellCost: 10

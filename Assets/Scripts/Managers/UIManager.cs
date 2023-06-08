@@ -15,6 +15,12 @@ public class UIManager : MonoBehaviour
     // 팝업 관리 스택
     private Stack<PopUpUI> popUpStack;
 
+    // 윈도우 캔버스
+    private Canvas windowCanvas;
+
+    // 인게임 캔버스
+    private Canvas inGameCanvas;
+
     private void Awake()
     {
         // 시작하자마자 이벤트시스템이 추가됨
@@ -26,6 +32,17 @@ public class UIManager : MonoBehaviour
         popUpCanvas.gameObject.name = "PopUpCanvas";
         popUpCanvas.sortingOrder = 100;
         popUpStack = new Stack<PopUpUI>();
+
+        windowCanvas = GameManager.Resource.Instantiate<Canvas>("UI/Canvas");
+        windowCanvas.gameObject.name = "WindowCanvas";
+        windowCanvas.sortingOrder = 10;
+
+        // gameSceneCanvas.sortingOrder = 1;
+
+        inGameCanvas = GameManager.Resource.Instantiate<Canvas>("UI/Canvas");
+        inGameCanvas.gameObject.name = "InGameCanvas";
+        inGameCanvas.sortingOrder = 0;
+
     }
 
     public T ShowPopUpUI<T>(T popUpUI) where T : PopUpUI
@@ -75,6 +92,49 @@ public class UIManager : MonoBehaviour
         {
             Time.timeScale = 1f;
         }
+    }
+
+    public void ShowWindowUI(WindowUI windowUI)
+    {
+        WindowUI ui = GameManager.Pool.GetUI(windowUI);
+        // 월드상의 위치가 아닌, 자신의 위치를 유치하기 위해 false로 설정
+        ui.transform.SetParent(windowCanvas.transform, false);
+    }
+
+    public void ShowWindowUI(string path)
+    {
+        WindowUI ui = GameManager.Resource.Load<WindowUI>(path);
+        ShowWindowUI(ui);
+    }
+
+    public void SelectWindowUI(WindowUI windowUI)
+    {
+        // 캔버스 상의 형제자매 오브젝트 중에서 제일 위로 올라가는 효과(마지막 순위로 변경)
+        windowUI.transform.SetAsLastSibling();
+    }
+
+    public void CloseWIndowUI(WindowUI windowUI)
+    {
+        GameManager.Pool.ReleaseUI(windowUI.gameObject);
+    }
+
+    public T ShowInGameUI<T>(T inGameUI) where T : InGameUI
+    {
+        T ui = GameManager.Pool.GetUI(inGameUI);
+        ui.transform.SetParent(inGameCanvas.transform.transform, false);
+
+        return ui;
+    }
+
+    public T ShowInGameUI<T>(string path) where T : InGameUI
+    {
+        T ui = GameManager.Resource.Load<T>(path);
+        return ShowInGameUI(ui);
+    }
+
+    public void CloseInGameUI<T>(T inGameUI) where T : InGameUI
+    {
+        GameManager.Pool.ReleaseUI(inGameUI.gameObject);
     }
 
 }

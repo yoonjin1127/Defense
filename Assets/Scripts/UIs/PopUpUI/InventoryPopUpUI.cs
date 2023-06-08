@@ -8,6 +8,7 @@ public class InventoryPopUpUI : PopUpUI
     {
         base.Awake();
 
-        buttons["Exit"].onClick.AddListener(() => { GameManager.UI.ClosePopUPUI(); });    
+        buttons["Exit"].onClick.AddListener(() => { GameManager.UI.ClosePopUPUI(); });
+        buttons["Jewelry"].onClick.AddListener(() => { Destroy(buttons["Jewelry"]);}) ;
     }
 }
